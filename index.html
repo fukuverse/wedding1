@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вариант 1 — Дыхание Океана</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Marck+Script&family=Montserrat:wght@300;400;600&display=swap');
+
+        :root {
+            --text-main: #2c3e50;
+            --text-muted: #7f8c8d;
+            --accent: #d4a5a5;
+        }
+
+        body {
+            margin: 0; padding: 0;
+            font-family: 'Montserrat', sans-serif;
+            color: var(--text-main);
+            display: flex; justify-content: center; align-items: center;
+            width: 100vw; height: 100vh; overflow: hidden; position: relative;
+            background: linear-gradient(135deg, #e0f2fe 0%, #fce7f3 100%);
+        }
+
+        .bg-water {
+            position: absolute; top: -10%; left: -10%; width: 120%; height: 120%;
+            background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.6) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 60%, rgba(212,165,165,0.3) 0%, transparent 60%),
+                        radial-gradient(circle at 50% 40%, rgba(14,165,233,0.15) 0%, transparent 50%);
+            filter: blur(30px);
+            animation: waterFlow 12s infinite ease-in-out alternate;
+            z-index: 1;
+        }
+
+        @keyframes waterFlow {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(-4%, -4%) scale(1.05); }
+        }
+
+        .screen {
+            width: 100%; height: 100%; 
+            padding: 20px; box-sizing: border-box;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            position: relative; z-index: 2; transition: all 0.5s ease;
+        }
+        .hidden { display: none !important; }
+        .fade-out { opacity: 0; transform: scale(0.95); filter: blur(4px); }
+        .fade-in { animation: reveal 0.6s ease forwards; }
+
+        @keyframes reveal { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+
+        .main-btn {
+            background: linear-gradient(135deg, #d4a5a5, #b88787); border: none; color: white;
+            padding: 14px 45px; font-size: 0.9rem; font-weight: 600; border-radius: 30px;
+            cursor: pointer; box-shadow: 0 5px 15px rgba(212,165,165,0.4); transition: 0.3s; letter-spacing: 1px;
+        }
+
+        .card-container {
+            background: rgba(255, 255, 255, 0.78); padding: 30px 20px; border-radius: 28px;
+            text-align: center; box-shadow: 0 15px 35px rgba(0,0,0,0.05);
+            border: 1px solid rgba(255,255,255,0.6); backdrop-filter: blur(15px);
+            width: 90%; max-width: 400px; box-sizing: border-box;
+        }
+        
+        .names { font-family: 'Marck Script', cursive; font-size: 3.2rem; margin: 10px 0; color: #a87373; }
+        .countdown { display: flex; justify-content: center; gap: 10px; margin: 20px 0; }
+        .time-block { background: white; flex: 1; max-width: 65px; padding: 8px 0; border-radius: 12px; box-shadow: 0 2px 6px rgba(0,0,0,0.02); }
+        .time-block span { font-size: 1.3rem; font-weight: 600; color: var(--accent); display: block; }
+        .time-block label { font-size: 0.55rem; color: var(--text-muted); }
+
+        .info-box { background: rgba(255,255,255,0.5); border-radius: 14px; padding: 12px; border: 1px solid rgba(255,255,255,0.5); }
+        .details-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; width: 100%; }
+        h3 { font-size: 0.65rem; color: var(--text-muted); letter-spacing: 1.5px; margin: 0 0 4px 0; text-transform: uppercase; }
+        p { margin: 0; font-size: 0.9rem; }
+    </style>
+</head>
+<body>
+
+    <div class="bg-water"></div>
+
+    <div id="envelope-screen" class="screen">
+        <div style="font-size: 3rem; margin-bottom: 15px;">🌸</div>
+        <p style="letter-spacing: 3px; color: var(--text-muted); font-size: 0.8rem; font-weight: 600;">ПРИГЛАШЕНИЕ ДЛЯ</p>
+        <h1 style="font-family: 'Marck Script', cursive; font-size: 3.2rem; margin-top: 5px; margin-bottom: 40px;">Дорогого Гостя</h1>
+        <button id="open-btn" class="main-btn">Открыть</button>
+    </div>
+
+    <div id="info-screen" class="screen hidden">
+        <div class="card-container">
+            <p style="font-size: 0.65rem; letter-spacing: 2px; color: var(--text-muted); font-weight: 600; margin-top: 0;">СВАДЕБНОЕ ПРИГЛАШЕНИЕ</p>
+            <h2 class="names">Влад & Диана</h2>
+            <p style="font-size: 0.9rem; line-height: 1.4; color: #555; margin-bottom: 15px;">Разделите с нами радость этого прекрасного дня!</p>
+            
+            <div class="countdown">
+                <div class="time-block"><span id="days">00</span><label>ДН</label></div>
+                <div class="time-block"><span id="hours">00</span><label>ЧС</label></div>
+                <div class="time-block"><span id="minutes">00</span><label>МН</label></div>
+                <div class="time-block"><span id="seconds">00</span><label>СК</label></div>
+            </div>
+
+            <div class="details-grid">
+                <div class="info-box">
+                    <h3>ДАТА</h3>
+                    <p style="font-weight: 600;">20 Сентября</p>
+                    <p style="font-size: 0.75rem; color: var(--text-muted);">2027 года</p>
+                </div>
+                <div class="info-box">
+                    <h3>ВРЕМЯ</h3>
+                    <p style="font-weight: 500;">Никах — 14:00</p>
+                    <p style="font-weight: 500; margin-top: 2px;">Банкет — 18:00</p>
+                </div>
+            </div>
+
+            <section class="info-box">
+                <h3>МЕСТО ТОРЖЕСТВА</h3>
+                <p style="font-weight: 600;">Зал «Жемчужина»</p>
+                <p style="font-size: 0.8rem; color: var(--text-muted);">ул. Навои 12, Ташкент</p>
+            </section>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("open-btn").addEventListener("click", () => {
+            document.getElementById("envelope-screen").classList.add("fade-out");
+            setTimeout(() => {
+                document.getElementById("envelope-screen").classList.add("hidden");
+                document.getElementById("info-screen").classList.remove("hidden");
+                document.getElementById("info-screen").classList.add("fade-in");
+            }, 500);
+        });
+
+        const target = new Date("September 20, 2027 14:00:00").getTime();
+        setInterval(() => {
+            const diff = target - new Date().getTime();
+            if (diff < 0) return;
+            document.getElementById("days").textContent = String(Math.floor(diff / 86400000)).padStart(2, '0');
+            document.getElementById("hours").textContent = String(Math.floor((diff % 86400000) / 3600000)).padStart(2, '0');
+            document.getElementById("minutes").textContent = String(Math.floor((diff % 3600000) / 60000)).padStart(2, '0');
+            document.getElementById("seconds").textContent = String(Math.floor((diff % 60000) / 1000)).padStart(2, '0');
+        }, 1000);
+    </script>
+</body>
+</html>
